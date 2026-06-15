@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blood Nations: Coliseum of History</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blood:#8B0000;
+  --crimson:#C41E3A;
+  --gold:#C9A84C;
+  --gold-light:#F0D080;
+  --dark:#0A0806;
+  --dark2:#120E0A;
+  --dark3:#1C1510;
+  --dark4:#241C14;
+  --stone:#2A2218;
+  --text:#E8DCC8;
+  --text-muted:#9A8870;
+  --border:#3A2E1E;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'Open Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,8,6,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-decoration:none}
+.nav-logo span{color:var(--crimson)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:'Cinzel',serif;font-size:0.75rem;font-weight:600;color:var(--text-muted);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{font-family:'Cinzel',serif;font-size:0.75rem;font-weight:700;color:var(--dark);background:var(--gold);border:none;padding:0.5rem 1.2rem;letter-spacing:0.1em;cursor:pointer;text-transform:uppercase;text-decoration:none;transition:background 0.2s}
+.nav-cta:hover{background:var(--gold-light)}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-top:64px}
+.hero-bg-img{position:absolute;inset:0;background-image:url('BloodNationsColosseumOfHistroy.png');background-size:cover;background-position:center top;background-repeat:no-repeat}
+.hero-bg-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,8,6,0.55) 0%,rgba(10,8,6,0.35) 30%,rgba(10,8,6,0.7) 70%,rgba(10,8,6,1) 100%)}
+.hero-bg-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(10,8,6,0.5) 100%)}
+.hero-particles{position:absolute;inset:0;overflow:hidden;z-index:1}
+.ember{position:absolute;width:2px;height:2px;background:var(--crimson);border-radius:50%;animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:0.8}90%{opacity:0.3}100%{transform:translateY(-10vh) translateX(40px);opacity:0}}
+.hero-content{position:relative;z-index:2;text-align:center;padding:2rem;max-width:860px}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:0.7rem;font-weight:600;color:var(--crimson);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-game-logo{width:min(640px,90vw);height:auto;display:block;margin:0 auto 1.5rem;filter:drop-shadow(0 4px 32px rgba(139,0,0,0.45))}
+.hero-tagline{font-size:1rem;color:var(--text-muted);max-width:560px;margin:0 auto 2.5rem;line-height:1.8;font-weight:300}
+.hero-icons{display:flex;justify-content:center;gap:2.5rem;margin-bottom:3rem;flex-wrap:wrap}
+.hero-icon{text-align:center}
+.hero-icon svg{width:28px;height:28px;margin-bottom:0.4rem;color:var(--gold);opacity:0.7}
+.hero-icon-label{font-family:'Cinzel',serif;font-size:0.55rem;color:var(--text-muted);letter-spacing:0.15em;text-transform:uppercase}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{font-family:'Cinzel',serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--dark);background:var(--gold);border:none;padding:1rem 2.2rem;cursor:pointer;text-decoration:none;transition:all 0.2s;display:inline-block}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-secondary{font-family:'Cinzel',serif;font-size:0.8rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid rgba(201,168,76,0.4);padding:1rem 2.2rem;cursor:pointer;text-decoration:none;transition:all 0.2s;display:inline-block}
+.btn-secondary:hover{border-color:var(--gold);background:rgba(201,168,76,0.06)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0.4;z-index:2}
+.scroll-hint span{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--gold)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.4}50%{opacity:0.9}}
+
+/* SECTIONS */
+section{padding:6rem 2rem}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--crimson);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:0.75rem}
+.section-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:var(--text);margin-bottom:1.25rem;line-height:1.2}
+.section-title em{color:var(--gold);font-style:normal}
+.section-body{color:var(--text-muted);max-width:640px;font-size:0.95rem;line-height:1.8}
+
+/* LORE */
+.lore{background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.lore-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.lore-quote{position:relative;padding:2.5rem;border-left:2px solid var(--crimson);background:rgba(139,0,0,0.06);margin-top:2rem}
+.lore-quote p{font-family:'Cinzel',serif;font-size:1.05rem;color:var(--text);line-height:1.8;font-style:italic}
+.gate-visual{width:100%;aspect-ratio:1;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(circle at center, #1A0505 0%, #0A0806 70%)}
+.gate-ring{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,0.15)}
+.gate-ring:nth-child(1){width:80%;height:80%;animation:gateSpin 20s linear infinite}
+.gate-ring:nth-child(2){width:60%;height:60%;border-color:rgba(139,0,0,0.2);animation:gateSpin 15s linear infinite reverse}
+.gate-ring:nth-child(3){width:40%;height:40%;border-color:rgba(201,168,76,0.25);animation:gateSpin 10s linear infinite}
+@keyframes gateSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.gate-center{font-family:'Cinzel',serif;font-size:3rem;color:var(--gold);opacity:0.6;position:relative;z-index:2}
+.gate-notch{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);width:10px;height:10px;background:var(--crimson);border-radius:50%}
+
+/* SECTION LABEL BANNER */
+.division-banner{display:flex;align-items:center;gap:1.5rem;margin:2.5rem 0 1.5rem}
+.division-banner-line{flex:1;height:1px;background:var(--border)}
+.division-banner-text{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--crimson);letter-spacing:0.3em;text-transform:uppercase;white-space:nowrap}
+
+/* FIGHTER GRID — 4-col photo cards */
+.fighters-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.fighter-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:0.72;background:var(--dark3)}
+.fighter-card img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.5s ease;filter:brightness(0.75) saturate(0.85)}
+.fighter-card:hover img{transform:scale(1.04);filter:brightness(0.9) saturate(1)}
+.fighter-card-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(10,8,6,0.96) 0%, rgba(10,8,6,0.45) 45%, transparent 70%)}
+.fighter-card-info{position:absolute;bottom:0;left:0;right:0;padding:1.25rem}
+.fighter-faction{font-family:'Cinzel',serif;font-size:0.58rem;color:var(--crimson);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.25rem}
+.fighter-name{font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:0.2rem}
+.fighter-role{font-size:0.7rem;color:var(--text-muted);letter-spacing:0.03em}
+.fighter-stats{display:flex;gap:0.75rem;margin-top:0.65rem}
+.stat-bar-wrap{flex:1}
+.stat-label{font-size:0.55rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem}
+.stat-bar{height:2px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden}
+.stat-fill{height:100%;border-radius:1px;background:var(--gold)}
+.stat-fill.hp{background:var(--crimson)}
+.stat-fill.spd{background:#4A90A4}
+
+/* FIGHTER GRID — 4-col photo cards */
+.blackOpFighters-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.blackOpFighters-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:0.72;background:var(--dark3)}
+.blackOpFighters-card img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.5s ease;filter:brightness(0.75) saturate(0.85)}
+.blackOpFighters-card:hover img{transform:scale(1.04);filter:brightness(0.9) saturate(1)}
+.blackOpFighters-card-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(10,8,6,0.96) 0%, rgba(10,8,6,0.45) 45%, transparent 70%)}
+.blackOpFighters-card-info{position:absolute;bottom:0;left:0;right:0;padding:1.25rem}
+.blackOpFighters-faction{font-family:'Cinzel',serif;font-size:0.58rem;color:var(--crimson);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.25rem}
+.blackOpFighters-name{font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:0.2rem}
+.blackOpFighters-role{font-size:0.7rem;color:var(--text-muted);letter-spacing:0.03em}
+.blackOpFighters-stats{display:flex;gap:0.75rem;margin-top:0.65rem}
+.stat-bar-wrap{flex:1}
+.stat-label{font-size:0.55rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem}
+.stat-bar{height:2px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden}
+.stat-fill{height:100%;border-radius:1px;background:var(--gold)}
+.stat-fill.hp{background:var(--crimson)}
+.stat-fill.spd{background:#4A90A4}
+
+
+
+
+
+
+
+
+
+
+/* HISTORY FIGHTER CARDS (illustrated, no photo) */
+.fighters-grid-history{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.history-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:0.72;background:var(--dark3);display:flex;flex-direction:column}
+.history-card-art{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.history-card-art svg{width:100%;height:100%}
+.history-card-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(10,8,6,0.97) 0%, rgba(10,8,6,0.4) 50%, transparent 80%)}
+.history-card-info{position:absolute;bottom:0;left:0;right:0;padding:1.5rem}
+.history-badge{display:inline-block;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.2em;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:0.2rem 0.6rem;margin-bottom:0.6rem;background:rgba(10,8,6,0.7)}
+.history-card-quote{font-family:'Cinzel',serif;font-size:0.7rem;color:var(--text-muted);font-style:italic;margin-top:0.5rem;line-height:1.6}
+.history-card:hover .history-card-art svg{transform:scale(1.03);transition:transform 0.5s}
+.stat-mini{display:flex;gap:0.6rem;margin-top:0.75rem}
+.stat-pill{font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.1em;color:var(--text-muted);border:1px solid var(--border);padding:0.2rem 0.5rem}
+
+/* ARENAS OF HISTORY — 2 featured large cards */
+.arenas-history-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3rem}
+.arena-history-card{position:relative;overflow:hidden;min-height:480px;background:var(--dark3);display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
+.arena-history-art{position:absolute;inset:0}
+.arena-history-art svg{width:100%;height:100%}
+.arena-history-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(10,8,6,0.98) 0%, rgba(10,8,6,0.55) 50%, rgba(10,8,6,0.15) 100%)}
+.arena-history-card:hover .arena-history-art svg{transform:scale(1.025);transition:transform 0.6s ease}
+.arena-history-content{position:relative;z-index:2;padding:2.5rem}
+.arena-era{font-family:'Cinzel',serif;font-size:0.62rem;color:var(--crimson);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:0.5rem}
+.arena-history-name{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;line-height:1.1}
+.arena-history-subtitle{font-family:'Cinzel',serif;font-size:0.8rem;color:var(--gold);opacity:0.8;margin-bottom:1rem;letter-spacing:0.05em}
+.arena-history-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.75;max-width:420px;margin-bottom:1.25rem}
+.arena-hazard-list{display:flex;gap:0.75rem;flex-wrap:wrap}
+.hazard-chip{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;color:var(--crimson);border:1px solid rgba(196,30,58,0.35);padding:0.25rem 0.75rem;text-transform:uppercase;background:rgba(139,0,0,0.1)}
+.arena-capacity{font-family:'Cinzel',serif;font-size:0.62rem;color:var(--text-muted);letter-spacing:0.1em;margin-top:1rem;opacity:0.7}
+
+/* STANDARD ARENAS GRID */
+.arenas-grid-std{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2rem}
+.arena-card{background:var(--dark4);border:1px solid var(--border);padding:1.75rem;transition:border-color 0.2s}
+.arena-card:hover{border-color:rgba(201,168,76,0.25)}
+.arena-card img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.5s ease;filter:brightness(0.75) saturate(0.85)}
+.arena-icon{font-size:1.4rem;margin-bottom:0.75rem;color:var(--gold);opacity:0.5}
+.arena-name{font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:0.4rem}
+.arena-hazard{font-size:0.72rem;color:var(--crimson);opacity:0.8;font-weight:600;margin-bottom:0.4rem}
+.arena-desc{font-size:0.78rem;color:var(--text-muted);line-height:1.7}
+
+/* ROSTER */
+.roster-section{background:var(--dark2);border-top:1px solid var(--border)}
+.roster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.roster-card{background:var(--dark4);border:1px solid var(--border);padding:1.5rem;position:relative;transition:border-color 0.2s,transform 0.2s}
+.roster-card:hover{border-color:rgba(201,168,76,0.3);transform:translateY(-2px)}
+.roster-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--border),transparent);transition:background 0.2s}
+.roster-card:hover::before{background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.rc-faction{font-family:'Cinzel',serif;font-size:0.58rem;color:var(--crimson);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.4rem}
+.rc-name{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.25rem}
+.rc-class{font-size:0.75rem;color:var(--text-muted)}
+.rc-weapon{font-size:0.72rem;color:var(--gold);opacity:0.7;margin-top:0.5rem}
+
+/* PILLARS */
+.pillars-section{background:var(--dark3);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.pillars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem;margin-top:3rem}
+.pillar{padding:2rem;border:1px solid var(--border);background:rgba(26,20,14,0.6)}
+.pillar-num{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--crimson);letter-spacing:0.2em;margin-bottom:1rem;display:block}
+.pillar-title{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--gold);margin-bottom:0.75rem}
+.pillar-body{font-size:0.85rem;color:var(--text-muted);line-height:1.75}
+
+/* MODES */
+.modes-section{background:var(--dark);border-top:1px solid var(--border)}
+.modes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-top:3rem}
+.mode-tag{display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;border:1px solid var(--border);background:var(--dark3);font-family:'Cinzel',serif;font-size:0.8rem;color:var(--text-muted);letter-spacing:0.05em;transition:all 0.2s}
+.mode-tag:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.04)}
+.mode-dot{width:6px;height:6px;background:var(--crimson);border-radius:50%;flex-shrink:0}
+
+/* RANKS */
+.ranks-section{background:var(--dark3);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.ranks-grid{display:flex;gap:0;margin-top:3rem;border:1px solid var(--border);flex-wrap:wrap}
+.rank-tier{flex:1;min-width:80px;padding:1.5rem;text-align:center;border-right:1px solid var(--border);transition:background 0.2s}
+.rank-tier:last-child{border-right:none}
+.rank-tier:hover{background:rgba(201,168,76,0.04)}
+.rank-icon{font-size:1.4rem;margin-bottom:0.5rem}
+.rank-name{font-family:'Cinzel',serif;font-size:0.75rem;font-weight:600;color:var(--text);display:block;letter-spacing:0.08em}
+
+/* ROADMAP */
+.roadmap-section{background:var(--dark2);border-top:1px solid var(--border)}
+.timeline-items{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem;position:relative}
+.tl-item{position:relative}
+.tl-dot{width:14px;height:14px;background:var(--dark2);border:2px solid var(--border);border-radius:50%;margin-bottom:1.5rem;position:relative;z-index:2;transition:border-color 0.2s}
+.tl-item:first-child .tl-dot{border-color:var(--gold);background:var(--gold)}
+.tl-item:hover .tl-dot{border-color:var(--crimson)}
+.tl-label{font-family:'Cinzel',serif;font-size:0.62rem;color:var(--crimson);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+.tl-title{font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:0.75rem}
+.tl-fighters{list-style:none;font-size:0.78rem;color:var(--text-muted);line-height:1.9}
+.tl-fighters li::before{content:'— ';color:var(--border);font-size:0.7rem}
+
+/* ESPORTS */
+.esports-section{background:var(--dark);border-top:1px solid var(--border)}
+.esports-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:3rem}
+.esports-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+.esport-stat{padding:1.5rem;border:1px solid var(--border);background:var(--dark2)}
+.esport-num{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:700;color:var(--gold)}
+.esport-label{font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem}
+.regions{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1.5rem}
+.region{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);font-family:'Cinzel',serif}
+.region::before{content:'';width:6px;height:6px;background:var(--crimson);border-radius:50%;flex-shrink:0}
+
+/* INVESTOR */
+.investor-section{background:var(--dark2);border-top:1px solid var(--border)}
+.investor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.inv-card{padding:1.75rem;border:1px solid var(--border);background:var(--dark4)}
+.inv-tier{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--crimson);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+.inv-amount{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--gold);margin-bottom:1rem}
+.inv-items{list-style:none;font-size:0.8rem;color:var(--text-muted);line-height:2}
+.inv-items li::before{content:'✦ ';font-size:0.55rem;color:var(--gold);vertical-align:middle}
+.publishers-list{margin-top:3rem;display:flex;flex-wrap:wrap;gap:1rem}
+.publisher-tag{font-family:'Cinzel',serif;font-size:0.72rem;color:var(--text-muted);border:1px solid var(--border);padding:0.5rem 1rem;letter-spacing:0.08em;transition:all 0.2s}
+.publisher-tag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* CTA */
+.cta-section{background:radial-gradient(ellipse at center, #1A0505 0%, var(--dark) 70%);border-top:1px solid var(--border);text-align:center;padding:8rem 2rem}
+.wishlist-note{font-size:0.78rem;color:var(--text-muted);margin-top:1.5rem;opacity:0.7}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:3rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
+.footer-brand .nav-logo{display:block;font-size:1.2rem;margin-bottom:1rem}
+.footer-brand p{font-size:0.8rem;color:var(--text-muted);line-height:1.8;max-width:240px}
+.footer-col h4{font-family:'Cinzel',serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+.footer-col ul{list-style:none;font-size:0.8rem;color:var(--text-muted);line-height:2.2}
+.footer-col ul a{color:var(--text-muted);text-decoration:none;transition:color 0.2s}
+.footer-col ul a:hover{color:var(--gold)}
+.footer-bottom{max-width:1200px;margin:3rem auto 0;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:var(--text-muted)}
+
+@media(max-width:1000px){
+  .fighters-grid-4{grid-template-columns:repeat(2,1fr)}
+  .fighters-grid-history{grid-template-columns:1fr 1fr}
+  .arenas-history-grid{grid-template-columns:1fr}
+  .arenas-grid-std{grid-template-columns:repeat(2,1fr)}
+  .lore-grid,.esports-grid{grid-template-columns:1fr}
+  .timeline-items{grid-template-columns:1fr 1fr}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:600px){
+  .fighters-grid-4,.fighters-grid-history{grid-template-columns:1fr}
+  .arenas-grid-std{grid-template-columns:1fr}
+  .investor-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#"><span>BLOOD</span> NATIONS</a>
+    <ul class="nav-links">
+      <li><a href="#fighters">Fighters</a></li>
+      <li><a href="#history">Warriors of History</a></li>
+      <li><a href="#arenas">Arenas</a></li>
+      <li><a href="#roadmap">Blood Gate</a></li>
+      <li><a href="#esports">Esports</a></li>
+      <li><a href="#invest">Investors</a></li>
+    </ul>
+    <a class="nav-cta" href="#cta">Wishlist Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-bg-vignette"></div>
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">RC Technology LLC &mdash; An Original IP</p>
+    <img class="hero-game-logo" src="BloodNationsColosseumOfHistroy.png" alt="Blood Nations: Coliseum of History">
+    <p class="hero-tagline">Every nation, empire, and warrior culture sends its greatest champion into a global tournament. One fight. One champion. History decides.</p>
+    <div class="hero-icons">
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <p class="hero-icon-label">Every Nation</p>
+      </div>
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 9.5 12.5l5-5"/><path d="m9.5 6.5 5 5-5 5"/></svg>
+        <p class="hero-icon-label">One Warrior</p>
+      </div>
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <p class="hero-icon-label">One Fight</p>
+      </div>
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <p class="hero-icon-label">One Champion</p>
+      </div>
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l4-4 4 4 4-4 4 4"/><path d="M3 4l4 4 4-4 4 4 4-4"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        <p class="hero-icon-label">Make History</p>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#cta">Add to Wishlist</a>
+      <a class="btn-secondary" href="#fighters">Meet the Fighters</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- LORE -->
+<section class="lore">
+  <div class="section-inner lore-grid">
+    <div>
+      <p class="section-label">The Story</p>
+      <h2 class="section-title">The <em>Blood Gate</em> Opens</h2>
+      <p class="section-body">A secret organization known as the Blood Gate Consortium gathers the world's most dangerous fighters. Elite operators. Mercenary assassins. Syndicate enforcers. They are abducted, stripped of allegiance, and forced into the arena.</p>
+      <div class="lore-quote">
+        <p>"Every nation has warriors. Every empire has monsters. Only one survives the Coliseum of History."</p>
+      </div>
+      <p class="section-body" style="margin-top:1.5rem">The winner earns unlimited wealth, global influence — and control of the Blood Gate itself. A portal that reaches across every era of human history. Season One ends with the portal activating. A Spartan warrior steps through. Fade to black.</p>
+    </div>
+    <div>
+      <div class="gate-visual">
+        <div class="gate-ring"><div class="gate-notch"></div></div>
+        <div class="gate-ring"></div>
+        <div class="gate-ring"></div>
+        <div class="gate-center">⚔</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLACK OPS FIGHTERS (photo cards) -->
+<section id="fighters" style="padding:6rem 0;background:var(--dark4);border-top:1px solid var(--border)">
+  <div class="section-inner" style="padding:0 2rem 2rem">
+    <p class="section-label">Season One · Black Operations</p>
+    <h2 class="section-title">Featured <em>Champions</em></h2>
+    <p class="section-body">The world's most dangerous fighters — syndicate enforcers and elite special operators — enter the Blood Gate Consortium's underground arena.</p>
+  </div>
+
+
+  <div class="fighters-grid-4">
+     <div class="fighter-card">
+      <img src="BlackOpsFighters\Bratva_Veteran.png" alt="Bratva Veteran">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Bratva</p>
+        <h3 class="fighter-name">Bratva Veteran</h3>
+        <p class="fighter-role">Close Range/ Tank</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Def</p><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:70%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:85%"></div></div></div>
+        </div>
+      </div>
+</div>
+
+     <div class="fighter-card">
+      <img src="BlackOpsFighters\Cartel_Hunter.png" alt="Cartel Hunter">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Bratva</p>
+        <h3 class="fighter-name">Cartel Hunter</h3>
+        <p class="fighter-role">Close Range/ Tank</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Def</p><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:70%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:85%"></div></div></div>
+        </div>
+      </div>
+     </div>
+    <div class="fighter-card">
+      <img src="BlackOpsFighters\Janissary_elite_guard.png" alt="Janissary Elite Guard of the Sultan">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Ottoman Empire</p>
+        <h3 class="fighter-name">Janissary</h3>
+        <p class="fighter-role">Elite Guard · Mid-Range / Control</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Def</p><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:70%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:85%"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fighter-card">
+      <img src="BlackOpsFighters\SicilianEnforcer.png" alt="Sicilian Enforcer">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Syndicates</p>
+        <h3 class="fighter-name">Sicilian Enforcer</h3>
+        <p class="fighter-role">Black Operations · Pressure / Mix-Up</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:75%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:80%"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fighter-card">
+      <img src="BlackOpsFighters\YakuzaSwordMaster.png" alt="Yakuza Swordmaster">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Yakuza Alliance</p>
+        <h3 class="fighter-name">Yakuza Swordmaster</h3>
+        <p class="fighter-role">Balanced / Counter Attacker</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:90%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:75%"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fighter-card">
+      <img src="BlackOpsFighters\ZuluQarrior.png" alt="Zulu Warrior">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Zulu Kingdom</p>
+        <h3 class="fighter-name">Zulu Warrior</h3>
+        <p class="fighter-role">Rushdown / Close Range</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:80%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- WARRIORS OF HISTORY (3 new illustrated cards) -->
+<section id="history" style="padding:6rem 0;background:var(--dark2);border-top:1px solid var(--border)">
+  <div class="section-inner" style="padding:0 2rem 2rem">
+    <p class="section-label">DLC 1 · Blood Gate: Age of Warriors</p>
+    <h2 class="section-title">Warriors of <em>History</em></h2>
+    <p class="section-body">The Blood Gate opens. Three legendary champions emerge from across time — each forged in battle, each representing the pinnacle of their era's martial tradition.</p>
+  </div>
+
+  <div class="fighters-grid-history">
+
+    <!-- Balkan Fixer -->
+    <div class="fighter-card">
+      <img src="WarriorsOfHistory\Balkan_Fixer.png" alt="Balkan Fixer">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Balkan Syndicate</p>
+        <h3 class="fighter-name">Balkan Fixer</h3>
+        <p class="fighter-role">Support / Disruptor</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:80%"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Roman Gladiator -->
+    <div class="fighter-card">
+      <img src="WarriorsOfHistory\Roman_Gladiator.png" alt="Roman Gladiator">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Roman Empire</p>
+        <h3 class="fighter-name">Roman Gladiator</h3>
+        <p class="fighter-role">Close-Range / Tank</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:80%"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Spartan Hoplite -->
+  <div class="fighter-card">
+      <img src="WarriorsOfHistory\Spartan_Hoplite.png" alt="Spartan Hoplite">
+      <div class="fighter-card-overlay"></div>
+      <div class="fighter-card-info">
+        <p class="fighter-faction">Sparta</p>
+        <h3 class="fighter-name">Spartan Hoplite</h3>
+        <p class="fighter-role">Close-Range / Defense Tank</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:80%"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Viking Berserker -->
+      <div class="fighter-card">
+      
+      <div class="fighter-card-overlay">      
+      </div>
+      <div class="fighter-card-info">
+         <img src="WarriorsOfHistory\Viking_Berserker.png" alt="Viking Berserker">
+        <p class="fighter-faction">Nordic Clans</p>
+        <h3 class="fighter-name">Viking Berserker</h3>
+        <p class="fighter-role">Close-Range / Heavy Damage</p>
+        <div class="fighter-stats">
+          <div class="stat-bar-wrap"><p class="stat-label">Dmg</p><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">Spd</p><div class="stat-bar"><div class="stat-fill spd" style="width:85%"></div></div></div>
+          <div class="stat-bar-wrap"><p class="stat-label">HP</p><div class="stat-bar"><div class="stat-fill hp" style="width:80%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</section>
+
+<!-- ARENAS OF HISTORY — 2 new featured -->
+<section id="arenas" style="background:var(--dark);border-top:1px solid var(--border);padding:6rem 0">
+  <div class="section-inner" style="padding:0 2rem 2rem">
+    <p class="section-label">Battlegrounds · Blood Gate Expansion</p>
+    <h2 class="section-title">Arenas of <em>History</em></h2>
+    <p class="section-body">Two legendary proving grounds emerge as the Blood Gate unlocks the ancient world — each carrying the weight, hazards, and glory of their era.</p>
+  </div>
+
+  <div class="arenas-history-grid">
+
+    <!-- Roman Colosseum -->
+    <div class="arena-history-card">
+      <div class="arena-history-art">
+   <img src="ArenasOfHistory/Roman_Colosseum.png" alt="Roman Colosseum">
+      </div>
+      <div class="arena-history-overlay"></div>
+      <div class="arena-history-content">
+         <img src="ArenasOfHistory/Roman_Colosseum.png" alt="Roman Colosseum">
+        <p class="arena-era">Ancient Rome · 1st Century AD</p>
+        <h3 class="arena-history-name">Roman Colosseum</h3>
+        <p class="arena-history-subtitle">Flavian Amphitheatre — Where Empires Judged Their Champions</p>
+        <p class="arena-history-desc">Capacity 50,000. The sand has been soaked by a thousand champions. Fire pits line the arena walls. Iron spikes rise from the podium ledge. The crowd's roar is a weapon of its own — triggering your opponent's fear or your own rally.</p>
+        <div class="arena-hazard-list">
+          <span class="hazard-chip">Fire Pits</span>
+          <span class="hazard-chip">Iron Spikes</span>
+          <span class="hazard-chip">Crowd Momentum</span>
+          <span class="hazard-chip">Gate Traps</span>
+        </div>
+        <p class="arena-capacity">Capacity: 50,000 · Hazard Rating: ★★★★☆</p>
+      </div>
+    </div>
+
+    <!-- Samurai Temple -->
+    <div class="arena-history-card">
+      <div class="arena-history-art">
+       <img src="ArenasOfHistory/Samurai_Temple.png" alt="Samurai Temple">
+      </div>
+      <div class="arena-history-overlay"></div>
+      <div class="arena-history-content">
+        <p class="arena-era">Feudal Japan · Edo Period</p>
+        <h3 class="arena-history-name">Samurai Temple</h3>
+        <p class="arena-history-subtitle">The Shrine of Discipline — Where Steel Finds Its Truth</p>
+        <p class="arena-history-desc">Ancient wood and moonlight. Discipline hangs in the air like incense smoke. Hanging lanterns sway above the fight — and fall. One wrong step and the ceiling becomes the hazard. Cherry blossoms drift across the floor as warriors exchange precision strikes in sacred silence.</p>
+        <div class="arena-hazard-list">
+          <span class="hazard-chip">Falling Lanterns</span>
+          <span class="hazard-chip">Slick Tatami</span>
+          <span class="hazard-chip">Pillar Breaks</span>
+          <span class="hazard-chip">Fire Scatter</span>
+        </div>
+        <p class="arena-capacity">Capacity: 800 · Hazard Rating: ★★★☆☆</p>
+      </div>
+    </div>
+  </div>
+   
+</section>
+
+<!-- Base Game Arenas-->
+<section class="arenas-section"   style="padding:6rem 0;background:var(--dark4);border-top:1px solid var(--border)">
+  <!-- Standard arenas -->
+  <div class="section-inner" style="padding:0 0rem;margin-top:2rem">
+    <div class="division-banner">
+      <div class="division-banner-line"></div>
+      <span class="division-banner-text">Base Game Arenas</span>
+      <div class="division-banner-line"></div>
+    </div>
+    <div class="arenas-grid-std">
+      <div class="arena-card">
+         <img src="BaseGameAreana/Viking_Longhall.png" alt="Viking Longhall">
+        <!--div class="arena-icon">🔥</div-->
+        <h3 class="arena-name">Viking Longhall</h3>
+        <p class="arena-hazard">Burning Beams · Collapsing Roof</p>
+        <p class="arena-desc">Mead and fire. A feast-hall turned funeral pyre. Watch the ceiling.</p>
+      </div>
+      <div class="arena-card">
+         <img src="BaseGameAreana/Mongol_Battlefield.png" alt="Mongol Battlefield">
+        <!--div class="arena-icon">🌪</div-->
+        <h3 class="arena-name">Mongol Battlefield</h3>
+        <p class="arena-hazard">Dust Storms · Open Steppe</p>
+        <p class="arena-desc">Impossible horizon. Dust storms blind and disorient both fighters.</p>
+      </div>
+      <div class="arena-card">
+         <img src="BaseGameAreana/Underground_Crime_Arena.png" alt="Underground_Crime_Arena">
+        <!--div class="arena-icon">⚡</div-->
+        <h3 class="arena-name">Underground Crime Arena</h3>
+        <p class="arena-hazard">Electrical Traps · No Rules</p>
+        <p class="arena-desc">Concrete. Cage-wire. The Blood Gate Consortium's first proving ground.</p>
+      </div>
+      <div class="arena-card">
+         <img src="BaseGameAreana/Medieval_Castle.png" alt="Medieval Castle">
+        <!--div class="arena-icon">🏰</div>-->
+        <h3 class="arena-name">Medieval Castle</h3>
+        <p class="arena-hazard">Moats · Rampart Edges</p>
+        <p class="arena-desc">Stone walls that have decided the fate of kingdoms. Now they decide yours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL ROSTER -->
+<section class="roster-section">
+  <div class="section-inner">
+    <p class="section-label" style="text-align:center">The Complete Roster</p>
+    <h2 class="section-title" style="text-align:center">15 <em>Warriors</em> Across All Eras</h2>
+    <p class="section-body" style="margin:0 auto 3rem;text-align:center">Across two seasons and the Blood Gate expansion — every fighter is a distinct archetype forged from authentic warrior traditions.</p>
+
+    <div class="division-banner"><div class="division-banner-line"></div><span class="division-banner-text">Season 1 · Syndicate Division</span><div class="division-banner-line"></div></div>
+    <div class="roster-grid">
+      <div class="roster-card"><p class="rc-faction">Italy</p><p class="rc-name">Sicilian Enforcer</p><p class="rc-class">Dirty Fighter · Pressure</p><p class="rc-weapon">⚔ Switchblade / Sap</p></div>
+      <div class="roster-card"><p class="rc-faction">Japan</p><p class="rc-name">Yakuza Swordmaster</p><p class="rc-class">Counter Attacker</p><p class="rc-weapon">⚔ Katana</p></div>
+      <div class="roster-card"><p class="rc-faction">China</p><p class="rc-name">Triad Shadow</p><p class="rc-class">Stealth / Speed</p><p class="rc-weapon">⚔ Butterfly Swords</p></div>
+      <div class="roster-card"><p class="rc-faction">Mexico</p><p class="rc-name">Cartel Hunter</p><p class="rc-class">Aggressive Rushdown</p><p class="rc-weapon">⚔ Machete</p></div>
+      <div class="roster-card"><p class="rc-faction">Russia</p><p class="rc-name">Bratva Veteran</p><p class="rc-class">Heavy Brawler</p><p class="rc-weapon">⚔ Combat Shovel</p></div>
+      <div class="roster-card"><p class="rc-faction">Balkans</p><p class="rc-name">Balkan Fixer</p><p class="rc-class">Counter-Grappler</p><p class="rc-weapon">⚔ Improvised Weapons</p></div>
+    </div>
+
+    <div class="division-banner" style="margin-top:2rem"><div class="division-banner-line"></div><span class="division-banner-text">Season 1 · Special Operations Division</span><div class="division-banner-line"></div></div>
+    <div class="roster-grid">
+      <div class="roster-card"><p class="rc-faction">USA</p><p class="rc-name">Delta Operator</p><p class="rc-class">Balanced Tactical</p><p class="rc-weapon">⚔ Combat Knife</p></div>
+      <div class="roster-card"><p class="rc-faction">United Kingdom</p><p class="rc-name">SAS Commando</p><p class="rc-class">Precision / Discipline</p><p class="rc-weapon">⚔ Fairbairn-Sykes</p></div>
+      <div class="roster-card"><p class="rc-faction">Russia</p><p class="rc-name">Spetsnaz Veteran</p><p class="rc-class">Sambo Grappler</p><p class="rc-weapon">⚔ Tactical Blade</p></div>
+      <div class="roster-card"><p class="rc-faction">France</p><p class="rc-name">Legionnaire</p><p class="rc-class">Endurance Fighter</p><p class="rc-weapon">⚔ Combat Machete</p></div>
+      <div class="roster-card"><p class="rc-faction">Israel</p><p class="rc-name">Mossad Operative</p><p class="rc-class">Fast Counter</p><p class="rc-weapon">⚔ Karambit Knife</p></div>
+      <div class="roster-card"><p class="rc-faction">Global</p><p class="rc-name">Black-Ops Mercenary</p><p class="rc-class">Wild Card · Copycat</p><p class="rc-weapon">⚔ Dual Blades</p></div>
+    </div>
+
+    <div class="division-banner" style="margin-top:2rem"><div class="division-banner-line"></div><span class="division-banner-text">DLC 1 · Age of Warriors (Blood Gate Expansion)</span><div class="division-banner-line"></div></div>
+    <div class="roster-grid">
+      <div class="roster-card" style="border-color:rgba(201,168,76,0.2)"><p class="rc-faction">Roman Empire</p><p class="rc-name">Roman Gladiator</p><p class="rc-class">Defender · Space Control</p><p class="rc-weapon">⚔ Gladius + Scutum</p></div>
+      <div class="roster-card" style="border-color:rgba(201,168,76,0.2)"><p class="rc-faction">Sparta</p><p class="rc-name">Spartan Hoplite</p><p class="rc-class">Tank · Shield Wall</p><p class="rc-weapon">⚔ Dory Spear + Aspis</p></div>
+      <div class="roster-card" style="border-color:rgba(201,168,76,0.2)"><p class="rc-faction">Norse</p><p class="rc-name">Viking Berserker</p><p class="rc-class">Bruiser · Aggression</p><p class="rc-weapon">⚔ Battle Axe</p></div>
+      <div class="roster-card" style="border-color:rgba(201,168,76,0.2);opacity:0.7"><p class="rc-faction">Feudal Japan</p><p class="rc-name">Samurai</p><p class="rc-class">Counter Specialist</p><p class="rc-weapon">⚔ Katana</p></div>
+      <div class="roster-card" style="border-color:rgba(201,168,76,0.2);opacity:0.7"><p class="rc-faction">Medieval Europe</p><p class="rc-name">Medieval Knight</p><p class="rc-class">Heavy · Armored</p><p class="rc-weapon">⚔ Longsword</p></div>
+      <div class="roster-card" style="border-color:rgba(201,168,76,0.2);opacity:0.7"><p class="rc-faction">Mongol Empire</p><p class="rc-name">Mongol Raider</p><p class="rc-class">Skirmisher · Speed</p><p class="rc-weapon">⚔ Saber</p></div>
+    </div>
+    <p style="font-size:0.72rem;color:var(--text-muted);margin-top:1rem;opacity:0.6">† Grayed cards = coming in DLC expansion · Full profiles revealed at launch</p>
+  </div>
+</section>
+
+<!-- CORE PILLARS -->
+<section class="pillars-section">
+  <div class="section-inner">
+    <p class="section-label">Design Philosophy</p>
+    <h2 class="section-title">Four <em>Core Pillars</em></h2>
+    <div class="pillars-grid">
+      <div class="pillar"><span class="pillar-num">PILLAR I</span><h3 class="pillar-title">Historical Identity</h3><p class="pillar-body">Every fighter feels unique to their culture. A Spartan fights like a shield wall warrior. A Samurai relies on precision and counters. A Viking overwhelms with aggression. No two fighters share a moveset.</p></div>
+      <div class="pillar"><span class="pillar-num">PILLAR II</span><h3 class="pillar-title">Skill-Based Combat</h3><p class="pillar-body">Victory demands timing, positioning, stamina management, and reading your opponent. Not button mashing. A lightweight stamina system governs every action — sprint, block, heavy attack, dodge.</p></div>
+      <div class="pillar"><span class="pillar-num">PILLAR III</span><h3 class="pillar-title">Competitive Balance</h3><p class="pillar-body">All fighters can win. No character is overpowered. The combat triangle — Attack beats Grab, Grab beats Block, Block beats Attack — ensures every matchup has answers.</p></div>
+      <div class="pillar"><span class="pillar-num">PILLAR IV</span><h3 class="pillar-title">Spectacle</h3><p class="pillar-body">Cinematic arenas. Epic fighter introductions. Crowd reactions. Dynamic weather. Every match feels like an event. Signature ultimate abilities end fights with lasting impressions.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODES -->
+<section class="modes-section">
+  <div class="section-inner">
+    <p class="section-label">How You Fight</p>
+    <h2 class="section-title">Game <em>Modes</em></h2>
+    <p class="section-body">From solo campaigns to global ranked play — every way to test your warrior.</p>
+    <div class="modes-grid">
+      <div class="mode-tag"><span class="mode-dot"></span>Arcade Mode</div>
+      <div class="mode-tag"><span class="mode-dot"></span>Tournament Bracket</div>
+      <div class="mode-tag"><span class="mode-dot"></span>Story Mode</div>
+      <div class="mode-tag"><span class="mode-dot"></span>Training Dojo</div>
+      <div class="mode-tag"><span class="mode-dot"></span>Versus (Local)</div>
+      <div class="mode-tag"><span class="mode-dot"></span>1v1 Ranked</div>
+      <div class="mode-tag"><span class="mode-dot"></span>1v1 Casual</div>
+      <div class="mode-tag"><span class="mode-dot"></span>Private Match</div>
+      <div class="mode-tag"><span class="mode-dot"></span>Spectator Mode</div>
+    </div>
+  </div>
+</section>
+
+<!-- RANKS -->
+<section class="ranks-section">
+  <div class="section-inner">
+    <p class="section-label" style="text-align:center">The Ladder</p>
+    <h2 class="section-title" style="text-align:center">Prove Your <em>Rank</em></h2>
+    <div class="ranks-grid">
+      <div class="rank-tier"><div class="rank-icon">🥉</div><span class="rank-name">Bronze</span></div>
+      <div class="rank-tier"><div class="rank-icon">⚪</div><span class="rank-name">Silver</span></div>
+      <div class="rank-tier"><div class="rank-icon">🥇</div><span class="rank-name">Gold</span></div>
+      <div class="rank-tier"><div class="rank-icon">💎</div><span class="rank-name">Platinum</span></div>
+      <div class="rank-tier"><div class="rank-icon">💠</div><span class="rank-name">Diamond</span></div>
+      <div class="rank-tier"><div class="rank-icon">👑</div><span class="rank-name">Master</span></div>
+      <div class="rank-tier"><div class="rank-icon">⚔️</div><span class="rank-name">Grandmaster</span></div>
+      <div class="rank-tier" style="background:rgba(201,168,76,0.06)"><div class="rank-icon">🏆</div><span class="rank-name" style="color:var(--gold)">Champion</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DLC ROADMAP -->
+<section id="roadmap" class="roadmap-section">
+  <div class="section-inner">
+    <p class="section-label">Franchise Vision</p>
+    <h2 class="section-title">The Blood Gate <em>Roadmap</em></h2>
+    <p class="section-body">The Blood Gate is more than a game — it's a multi-year franchise strategy. Season One launches the world. Every expansion opens the portal wider.</p>
+    <div class="timeline-items">
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-label">Year 1 · Base Game</p><h3 class="tl-title">Black Operations</h3><ul class="tl-fighters"><li>12 fighters, 4 arenas</li><li>Ranked multiplayer</li><li>Story mode</li><li>Online launch</li></ul></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-label">DLC 1 · Year 2</p><h3 class="tl-title">Age of Warriors</h3><ul class="tl-fighters"><li>Roman Gladiator</li><li>Spartan Hoplite</li><li>Viking Berserker</li><li>Samurai</li><li>Medieval Knight</li><li>Mongol Raider</li></ul></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-label">DLC 2 · Year 3</p><h3 class="tl-title">Blood Gate: Empires</h3><ul class="tl-fighters"><li>Zulu Warrior</li><li>Ottoman Janissary</li><li>Persian Immortal</li><li>Aztec Jaguar Warrior</li><li>Shaolin Monk</li><li>Mamluk Champion</li></ul></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-label">DLC 3 · Year 4</p><h3 class="tl-title">Blood Gate: Legends</h3><ul class="tl-fighters"><li>The Conqueror</li><li>The Berserker King</li><li>The Last Centurion</li><li>The Desert Lion</li><li>Myth-inspired champions</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPORTS -->
+<section id="esports" class="esports-section">
+  <div class="section-inner">
+    <p class="section-label">Competitive Scene</p>
+    <h2 class="section-title">Blood Nations <em>World Championship</em></h2>
+    <div class="esports-grid">
+      <div>
+        <p class="section-body">Regional qualifiers feed into an annual World Finals. Prize pools funded through DLC revenue, sponsorships, and streaming partnerships. Built from day one to support esports.</p>
+        <div class="regions">
+          <div class="region">North America</div><div class="region">Europe</div>
+          <div class="region">Asia</div><div class="region">South America</div>
+          <div class="region">Africa</div><div class="region">Annual World Finals</div>
+        </div>
+      </div>
+      <div>
+        <div class="esports-stats">
+          <div class="esport-stat"><p class="esport-num">100K+</p><p class="esport-label">Target units at full release</p></div>
+          <div class="esport-stat"><p class="esport-num">10K</p><p class="esport-label">Steam wishlist at Early Access</p></div>
+          <div class="esport-stat"><p class="esport-num">$39.99</p><p class="esport-label">Base game price at launch</p></div>
+          <div class="esport-stat"><p class="esport-num">5+ Yrs</p><p class="esport-label">DLC content pipeline</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTORS -->
+<section id="invest" class="investor-section">
+  <div class="section-inner">
+    <p class="section-label">For Investors</p>
+    <h2 class="section-title">Join the <em>Blood Gate</em> Consortium</h2>
+    <p class="section-body">RC Technology LLC is seeking seed investment to build the vertical slice — 4 fighters, 1 arena, and a publisher-ready demo. Three funding rounds to full console launch.</p>
+    <div class="investor-grid">
+      <div class="inv-card"><p class="inv-tier">Round 1 · Self-Funded</p><p class="inv-amount">$25K – $50K</p><ul class="inv-items"><li>Combat prototype</li><li>Website &amp; branding</li><li>Cinematic trailer</li><li>Steam page launch</li></ul></div>
+      <div class="inv-card" style="border-color:rgba(201,168,76,0.3)"><p class="inv-tier">Round 2 · Angel Round</p><p class="inv-amount">$250K – $750K</p><ul class="inv-items"><li>12 fighters, full roster</li><li>Online multiplayer</li><li>Early Access launch</li><li>Esports infrastructure</li></ul></div>
+      <div class="inv-card"><p class="inv-tier">Round 3 · Publisher / VC</p><p class="inv-amount">$2M – $10M+</p><ul class="inv-items"><li>Full production build</li><li>Console launch (PS5, Xbox)</li><li>Marketing campaign</li><li>DLC expansion roadmap</li></ul></div>
+    </div>
+    <p style="font-family:'Cinzel',serif;font-size:0.65rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin:3rem 0 1rem">Target Publishers &amp; Investors</p>
+    <div class="publishers-list">
+      <span class="publisher-tag">Epic Games Publishing</span><span class="publisher-tag">505 Games</span><span class="publisher-tag">THQ Nordic</span><span class="publisher-tag">Focus Entertainment</span><span class="publisher-tag">Plaion (Deep Silver)</span><span class="publisher-tag">Griffin Gaming Partners</span><span class="publisher-tag">BITKRAFT Ventures</span><span class="publisher-tag">Konvoy Ventures</span><span class="publisher-tag">Andreessen Horowitz Games Fund</span><span class="publisher-tag">Kickstarter / Indiegogo</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-section">
+  <p class="section-label" style="text-align:center">Coming to Steam</p>
+  <h2 class="section-title" style="text-align:center;max-width:700px;margin:0 auto 1.25rem">Only <em>One</em> Champion Rules History</h2>
+  <p class="section-body" style="text-align:center;margin:0 auto 3rem">PC (Steam) &nbsp;·&nbsp; Xbox Series X/S &nbsp;·&nbsp; PlayStation 5 &nbsp;·&nbsp; Powered by Unreal Engine 5.6</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="#">Add to Steam Wishlist</a>
+    <a class="btn-secondary" href="#">Join Discord</a>
+    <a class="btn-secondary" href="#">Investor Inquiry</a>
+  </div>
+  <p class="wishlist-note">Rated M for Mature &nbsp;·&nbsp; RC Technology LLC &nbsp;·&nbsp; Blood Nations is currently in development</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#"><span>BLOOD</span> NATIONS</a>
+      <p>An original IP by RC Technology LLC. Where every nation, empire, and warrior culture sends its greatest champion into the arena.</p>
+    </div>
+    <div class="footer-col"><h4>Game</h4><ul><li><a href="#fighters">Black Operations</a></li><li><a href="#history">Warriors of History</a></li><li><a href="#arenas">Arenas</a></li><li><a href="#roadmap">DLC Roadmap</a></li><li><a href="#esports">Esports</a></li></ul></div>
+    <div class="footer-col"><h4>Platform</h4><ul><li><a href="#">PC (Steam)</a></li><li><a href="#">Xbox Series X/S</a></li><li><a href="#">PlayStation 5</a></li><li><a href="#">Unreal Engine 5.6</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">RC Technology LLC</a></li><li><a href="#invest">Investor Relations</a></li><li><a href="#">Press Kit</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 RC Technology LLC. Blood Nations is a trademark of RC Technology LLC. All rights reserved.</span>
+    <span>Powered by Unreal Engine 5.6</span>
+  </div>
+</footer>
+
+<script>
+const c=document.getElementById('particles');
+for(let i=0;i<30;i++){
+  const e=document.createElement('div');
+  e.className='ember';
+  e.style.cssText=`left:${Math.random()*100}%;animation-duration:${4+Math.random()*8}s;animation-delay:${Math.random()*8}s;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px`;
+  c.appendChild(e);
+}
+</script>
+</body>
+</html>
